@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: hello-world #000000000011111111112222222222333333333344444444445555555555
 spec:
   replicas: 1
   selector:
@@ -15,44 +15,41 @@ spec:
       containers:
       - image: okteto/go-getting-started:hello-world
         name: hello-world
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"        
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-world
+  name: hello-world0000000000111111111122222222223334
+  labels:
+    app: hello-world  
+  annotations:
+    dev.okteto.com/auto-ingress: "true"  
 spec:
-  type: ClusterIP
+  type: ExternalName
   ports:
   - name: "hello-world"
     port: 8080
   selector:
     app: hello-world
 
----
+# ---
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: hello-world
-  annotations:
-    dev.okteto.com/generate-host: hello-world
-spec:
-  rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: hello-world
-            port:
-              number: 8080
-        path: /
-        pathType: ImplementationSpecific
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: hello-world000000000011111111112222222222333333333344444444445555555555
+#   annotations:
+#     dev.okteto.com/generate-host: hello-world
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - backend:
+#           service:
+#             name: hello-world
+#             port:
+#               number: 8080
+#         path: /
+#         pathType: ImplementationSpecific
